@@ -1,10 +1,12 @@
 import {React, useRef, useState} from 'react'
+import './work.css'
 
 const Work = () => {
     const task = useRef()
     const course = useRef()
     const time = useRef()
     const [tasks, setTasks] = useState([])
+    var testTimer = 10
 
     function add() {
         console.log(task.current.value, course.current.value, time.current.value)
@@ -12,19 +14,29 @@ const Work = () => {
             return [...oldTasks, {task:task.current.value, course:course.current.value, time:time.current.value}]
         })
     }
-    function start(tt) {
-        console.log('Start counting down time')
-        
+
+    function start() {
+        var timeInterval = setInterval(function() {
+            testTimer = testTimer - 1
+            console.log(testTimer)
+            if (testTimer <= 0) {
+                clearInterval(timeInterval)
+            }
+        }, 1000)
     }
+        
 
     return (
         <div>
             <h1> Test </h1>
             {tasks.map((t) => {
                 return (
-                    <div>
+                    <div className='List'>
                         <p>Task: {t.task}, Course: {t.course}, Time: {t.time}</p>
-                        <button onClick={start(t.time)} type='button'>
+                        <p>Test: {testTimer}</p>
+                        <button onClick={function() {
+                            start()
+                        }} type='button'>
                             Start
                         </button>
                     </div>
